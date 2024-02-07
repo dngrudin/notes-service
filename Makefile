@@ -10,7 +10,7 @@ build:
 
 .PHONY: run
 run: build
-	${BINARY_PATH} -o ${BUILD_DIR}/
+	${BINARY_PATH} --config config/local.yaml
 
 .PHONY: clean
 clean:
