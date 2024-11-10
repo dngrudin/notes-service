@@ -9,14 +9,20 @@ import (
 )
 
 type Config struct {
-	HTTPServer HTTPServer `yaml:"http_server"`
+	HTTPServer HTTPServerConfig `yaml:"http_server"`
+	Storage    StorageConfig    `yaml:"storage"`
 }
 
-type HTTPServer struct {
+type HTTPServerConfig struct {
 	Address         string        `yaml:"address" env-default:"0.0.0.0:8080"`
 	Timeout         time.Duration `yaml:"timeout" env-default:"5s"`
 	IdleTimeout     time.Duration `yaml:"idle_timeout" env-default:"60s"`
 	ShutdownTimeout time.Duration `yaml:"shutdown_timeout" env-default:"10s"`
+}
+
+type StorageConfig struct {
+	URI    string `yaml:"uri" env-default:"mongodb://localhost:27017"`
+	DbName string `yaml:"db_name" env-default:"Notes"`
 }
 
 func MustLoad(configPath string) *Config {

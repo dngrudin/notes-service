@@ -14,10 +14,8 @@ type MemoryStorage struct {
 	mu    sync.RWMutex
 }
 
-func New() storage.Storage {
-	return &MemoryStorage{
-		notes: map[uuid.UUID]model.Note{},
-	}
+func New() (storage.Storage, error) {
+	return &MemoryStorage{notes: map[uuid.UUID]model.Note{}}, nil
 }
 
 func (s *MemoryStorage) GetNotes() ([]model.Note, error) {

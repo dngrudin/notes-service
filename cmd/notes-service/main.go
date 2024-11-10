@@ -7,7 +7,7 @@ import (
 
 	"github.com/dngrudin/notes-service/internal/config"
 	"github.com/dngrudin/notes-service/internal/service"
-	"github.com/dngrudin/notes-service/internal/storage/memory"
+	"github.com/dngrudin/notes-service/internal/storage/mongodb"
 	"github.com/dngrudin/notes-service/pkg/logger"
 )
 
@@ -34,7 +34,11 @@ func main() {
 
 	slog.Info("Starting Notes service", slog.String("version", version))
 
-	storage := memory.New()
+	storage, err := mongodb.New(cfg.Storage)
+	if err != nil {
+		slog.Error("Failed to init storage: %s", logger.Err(err))
+		os.Exit(1)
+	}
 
 	service := service.New(cfg, storage)
 	service.Run()

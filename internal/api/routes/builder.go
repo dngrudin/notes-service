@@ -36,7 +36,14 @@ func NewBuilder(executor Executable) Builder {
 func (rb *Builder) Build() http.Handler {
 	r := chi.NewRouter()
 
-	r.Use(cors.Default().Handler)
+	c := cors.New(cors.Options{
+		AllowedOrigins:   []string{"*"},
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE"},
+		AllowCredentials: true,
+		Debug:            true,
+	})
+
+	r.Use(c.Handler)
 
 	r.Use(middleware.RequestID)
 	r.Use(middleware.Logger)
